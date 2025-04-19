@@ -6,22 +6,16 @@ func splitImage(image: UIImage, gridSize: Int) -> [UIImage] {
         return []
     }
 
-    let width = cgImage.width / gridSize
-    let height = cgImage.height / gridSize
-    guard width > 0, height > 0 else {
-        print("Error: Invalid grid size or image dimensions.")
-        return []
-    }
+    let tileWidth = cgImage.width / gridSize
+    let tileHeight = cgImage.height / gridSize
 
     var tiles: [UIImage] = []
 
     for row in 0..<gridSize {
         for col in 0..<gridSize {
-            let rect = CGRect(x: col * width, y: row * height, width: width, height: height)
+            let rect = CGRect(x: col * tileWidth, y: row * tileHeight, width: tileWidth, height: tileHeight)
             if let tileCgImage = cgImage.cropping(to: rect) {
                 tiles.append(UIImage(cgImage: tileCgImage))
-            } else {
-                print("Error: Failed to crop image at row \(row), col \(col).")
             }
         }
     }

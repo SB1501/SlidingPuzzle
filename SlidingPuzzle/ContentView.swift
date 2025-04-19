@@ -1,19 +1,23 @@
 import SwiftUI
 
 struct ContentView: View {
-    @State private var selectedImage: UIImage? // Image chosen by the user
-    @State private var tiles: [UIImage] = []  // Generated tiles
-    @State private var showingImagePicker = false // Image picker toggle
-    
+    @State private var selectedImage: UIImage? = nil
+    @State private var tiles: [UIImage] = []
+    @State private var showingImagePicker = false
+    let gridSize = 3
+
     var body: some View {
         VStack {
             if let image = selectedImage {
-                PuzzleView(tiles: tiles, gridSize: 3) // Pass tiles to PuzzleView
-                    .onAppear {
-                        if tiles.isEmpty {
-                            tiles = splitImage(image: image, gridSize: 3)
+                if tiles.isEmpty {
+                    Text("Generating tiles...")
+                        .onAppear {
+                            tiles = splitImage(image: image, gridSize: gridSize)
+                            tiles.append(UIImage()) // Add blank tile
                         }
-                    }
+                } else {
+                    PuzzleView(tiles: tiles, gridSize: gridSize)
+                }
             } else {
                 Button("Select Photo") {
                     showingImagePicker = true
@@ -26,10 +30,8 @@ struct ContentView: View {
         }
         .onChange(of: selectedImage) { newImage in
             if let image = newImage {
-                tiles = splitImage(image: image, gridSize: 3)
-                if tiles.isEmpty {
-                    print("Error: No tiles generated. Check the image splitting logic.")
-                }
+                tiles = splitImage(image: image, gridSize: gridSize)
+                tiles.append(UIImage()) // Add blank tile
             }
         }
     }
