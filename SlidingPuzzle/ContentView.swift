@@ -27,6 +27,9 @@ struct ContentView: View {
         .onChange(of: selectedImage) { newImage in
             if let image = newImage {
                 tiles = splitImage(image: image, gridSize: 3)
+                if tiles.isEmpty {
+                    print("Error: No tiles generated. Check the image splitting logic.")
+                }
             }
         }
     }

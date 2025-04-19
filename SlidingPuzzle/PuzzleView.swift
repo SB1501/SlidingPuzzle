@@ -26,7 +26,7 @@ struct PuzzleView: View {
             .padding()
         }
     }
-
+    
     func moveTile(at tileIndex: Int) {
         if canMove(tileIndex: tileIndex, emptyIndex: emptyIndex, gridSize: gridSize) {
             withAnimation {
@@ -35,7 +35,7 @@ struct PuzzleView: View {
             }
         }
     }
-
+    
     func canMove(tileIndex: Int, emptyIndex: Int, gridSize: Int) -> Bool {
         let rowDiff = abs(tileIndex / gridSize - emptyIndex / gridSize)
         let colDiff = abs(tileIndex % gridSize - emptyIndex % gridSize)
